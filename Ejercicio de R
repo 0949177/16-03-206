@@ -1,0 +1,51 @@
+#TRABAJO EN CLASE DE SERIES DE TIEMPO CON SERGIO :
+  #### Generar 4 objetos con datos aleatorios y que tengan 60 datos
+  ### dato 1 de n?mero de profesionista (mill)rango de 5 a 8
+  ### dato 2 crec pib rango de 0 a 5
+  ### dato 3 porcentaje de ocupados rango de 40 a 60
+  ### dato 4 porcentaje de desocupados rango de 3 a 8
+  #### 1) una vez que generen los datos hacer un data frame de los 4 objetos
+  #### 2) mostrar en consola los primeros 12 y ultimos 12 datos
+  #### 3) convertir los objetos en series de tiempo desde el data frame comezando en 2010 y son datos mensuales
+  #### 4) graficar los profesionistas y ocupados en la misma imagen
+  #### 5) graficar pib y desocupados en la misma imagen
+  #### 6) graficar todas juntas
+### 7) creaR serie de tiempo multiple!!!!8
+#### 8 ) graficar serie de tiempo multiple 
+#### 9 ) dividir serie de tiempo y graficar solo el ultimo año...
+#### 8 ) analizar las graficas ( si hay alguna tendencia o variacion estacional) (investigar)
+
+###COMIENZO
+#### Generar 4 objetos con datos aleatorios y que tengan 60 datos
+num_prof<-sample(5:8,60,replace=TRUE)
+pib<-sample(0:5,60,replace = TRUE)
+ocu<-sample(40:60,60,replace = TRUE)
+desocu<-sample(3:8,60,replace = TRUE)
+#### 1) una vez que generen los datos hacer un data frame de los 4 objetos
+tabla1<-data.frame(num_prof,pib,ocu,desocu)
+tabla2<-tabla1[c(1:12,49:60),] #Se muestran los primeros 12 y los últimos 12
+tabla2
+tabla3<-ts(tabla1,start = 2010,frequency = 12)
+layout(1:2)
+plot(tabla3[,3],main="Tasa de Ocupados",xlab="Años",ylab="Porcentaje de Ocupados",col="Salmon") 
+plot(tabla3[,1],main = "Número de profesionistas",xlab="Años",ylab="Profesionistas (Miles)",col="Blue")
+layout(1:2)
+plot(tabla3[,2],main="PIB Producto Interno Bruto",xlab="Años",ylab="Porcentaje",col="coral3")
+plot(tabla3[,4],main="Porcentaje de Desocupados",xlab="Años",ylab="Porcentaje",col="green")
+num_prof2<-ts(tabla3[,1],start = 2010,frequency = 12)
+pib2<-ts(tabla3[,2],start = 2010,frequency = 12)
+ocu2<-ts(tabla3[,3],start = 2010,frequency = 12)
+desocu2<-ts(tabla3[,4],start = 2010,frequency = 12)
+seriemultiple<-ts.intersect(Pofesionistas=num_prof2,PIB=pib2,Ocupados=ocu2,Desocupados=desocu2)
+plot(seriemultiple,main="Serie Multiple",xlab="Años",col="blue")
+multiple2<-window(seriemultiple,start=c(2014,1),end=c(2014,12))
+###9 ) dividir serie de tiempo y graficar solo el ultimo año...
+plot(multiple2,main="Serie Multiple 2014",xlab="Años",col="green")
+#Graficas de Tendencias 
+plot(aggregate(tabla3[,3]),main="Tendencia Ocupados",xlab="Años",ylab="Porcentaje de Ocupados",col="Salmon") 
+plot(aggregate(tabla3[,1]),main = "Tendencia Número de profesionistas",xlab="Años",ylab="Profesionistas (Miles)",col="Blue")
+plot(tabla3[,2],main="Tendencia Producto Interno Bruto",xlab="Años",ylab="Porcentaje",col="coral3")
+plot(tabla3[,4],main="Tendencia Desocupados",xlab="Años",ylab="Porcentaje",col="green")
+#Conclusión:
+#Para este ejemplo, no existe tendencia o variación estacionAl debido a que los datos fueron propuestos de manera aleatoria
+#La gráfica muestra claramente que no existe una variacón estacional porque los datos no siguen un patron  
